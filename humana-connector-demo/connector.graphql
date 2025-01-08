@@ -1,0 +1,73 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.10", import: ["@key", "@requires"])
+  @link(
+    url: "https://specs.apollo.dev/connect/v0.1"
+    import: ["@source", "@connect"]
+  )
+  @source(
+  name: "humana"
+  http: {
+    baseURL: "https://fhir.humana.com/sandbox/api/CareTeam"
+     headers: [
+        { name: "Authorization", value: "Bearer {$config.apiKey}" }
+      ]
+  }
+)
+
+"A representation of a Care Team in the healthcare system"
+type CareTeam @key(fields: "id") {
+  "The unique identifier for the Care Team"
+  id: ID!
+  "The name of the Care Team"
+  name: String!
+  "A list of members in the Care Team"
+  members: [CareTeamMember]!
+  "A description of the Care Team's purpose"
+  description: String
+}
+
+"A member of the Care Team"
+type CareTeamMember {
+  "The unique identifier for the Care Team Member"
+  id: ID!
+  "The name of the Care Team Member"
+  name: String!
+  "The role of the Care Team Member"
+  role: String!
+}
+
+"Error type for Care Team operations"
+type CareTeamError {
+  "The error code"
+  code: String!
+  "A human-readable message providing more details about the error"
+  message: String!
+}
+
+"A response type for Care Team queries"
+type CareTeamResponse {
+  "The list of Care Teams or a specific Care Team"
+  careTeams: [CareTeam]
+  "Any errors that occurred during the operation"
+  errors: [CareTeamError]
+}
+
+type Query {
+  "Fetch a list of Care Teams"
+  careTeams: [CareTeam]!
+    @shareable
+    @connect(
+      source: "humana"
+      http: { GET: "/care-teams" }
+      selection: "data->entries { id: key, name: value.name, description: value.description, members: value.members }"
+    )
+
+  "Fetch a specific Care Team by ID"
+  careTeam(id: ID!): CareTeam
+    @shareable
+    @connect(
+      source: "humana"
+      http: { GET: "/care-teams/{id}" }
+      selection: "data->entries { id: key, name: value.name, description: value.description, members: value.members }"
+    )
+}
