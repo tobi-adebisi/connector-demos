@@ -18,9 +18,9 @@ type CarePlanDetail @key(fields: "id") {
   "The unique identifier for the Care Team"
   id: ID!
   "The name of the Care Team"
-  members: [String!]
+  relationship: [String!]
   "A list of members in the Care Team"
-  carePlanEntries: [CarePlan]
+  entries: [CarePlan]
 }
 
 type CarePlan @key(fields: "id"){
