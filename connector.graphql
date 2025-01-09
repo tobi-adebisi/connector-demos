@@ -41,7 +41,6 @@ type CarePlan @key(fields: "id"){
 type Query {
   "Fetch Details of a Care Plan"
   carePlanDetail: CarePlanDetail!
-    @shareable
     @connect(
       source: "humana"
       http: { GET: "/CarePlan" } 
