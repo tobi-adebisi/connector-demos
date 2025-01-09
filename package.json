@@ -7,7 +7,8 @@
     "author": "Apollo GraphQL",
     "license": "MIT",
     "scripts": {
-        "start": "node humana-connector-demo/index.js"
+        "start": "node humana-connector-demo/scripts/index.js",
+        "refresh": "node humana-connector-demo/scripts/refresh.js"
     },
     "dependencies": {
         "@faker-js/faker": "^9.0.3",
