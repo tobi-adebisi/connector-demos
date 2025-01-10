@@ -3,4 +3,4 @@ subgraphs:
   connector:
     routing_url: http://connector
     schema:
-      file: connector.graphql
+      file: ./humana/connector.graphql

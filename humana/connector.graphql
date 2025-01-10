@@ -9,7 +9,7 @@ extend schema
   http: {
     baseURL: "https://fhir.humana.com/sandbox/api/"
      headers: [
-        { name: "Authorization", value: "Bearer {$config.apiKey}" }
+        { name: "Authorization", value: "Bearer af817b343dce1c6a34f168b4ef6adfdf31ce80f47d08" }
       ]
   }
 )
@@ -27,15 +27,13 @@ type CarePlan @key(fields: "id"){
   "The unique identifier for the Care Team"
   id: ID!
   "The status of the Care Plan"
-  status: String!
+  status: String
   "The intent of the Care Plan"
-  intent: String!
+  intent: String
   "The description of the Care Plan"
-  description: String!
+  description: String
   "The author of the Care Plan"
-  author: String!
-  "The contributor of the Care Plan"
-  contributor: String!
+  author: String
 }
 
 type Query {
@@ -46,20 +44,14 @@ type Query {
       http: { GET: "/CarePlan" } 
       selection: """
         id 
-        relationship: $.link {
-          relation
-        }
-        entries: $.entry {
-          url: fullUrl
-          carePlan: resource {
+        relationship: $.link.relation 
+        entries: $.entry.resource {
             id
             status
             intent
             description
             author: author.display
-            contributor: contributor.display
           }
-        }
       """
     )
 }

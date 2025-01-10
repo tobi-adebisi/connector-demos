@@ -13,7 +13,7 @@ telemetry:
 
 preview_connectors:
   subgraphs:
-    humana-connector-demo:
+    humana:
       $config:
         apiKey: ${env.ACCESS_TOKEN}
         clientID: ${env.CLIENT_ID}
